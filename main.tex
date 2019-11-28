@@ -1,0 +1,380 @@
+\documentclass[xcolor={dvipsnames}]{beamer}
+
+\mode<presentation> {
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+    \usepackage{csquotes}
+    \usepackage{media9}
+    \usepackage{hyperref}
+
+    \bibliographystyle{plain}
+
+    \usetheme{Madrid}
+    \usecolortheme{ipbutfpr}
+
+    \setbeamertemplate{caption}[numbered]
+    \setbeamertemplate{bibliography item}{\insertbiblabel}
+    \setbeamertemplate{frametitle continuation}{\gdef\beamer@frametitle{}}
+
+    \setbeamertemplate{footline}{
+        \leavevmode%
+        \hbox{%
+            \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+                \usebeamerfont{author in head/foot}\insertshortauthor
+            \end{beamercolorbox}%
+            \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+                \usebeamerfont{title in head/foot}\insertshorttitle\hspace*{6em}
+                \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+            \end{beamercolorbox}
+        }%
+        \vskip0pt%
+    }
+
+    \setbeamertemplate{navigation symbols}{}
+}
+
+\usepackage[language=brazil, style=numeric, sorting=none]{biblatex}
+\addbibresource{main.bib}
+\makeatletter
+
+\makeatother
+
+\title{Towards pseudonymization of Speech}
+
+\author[Rob van Son]{Rob van Son}
+
+\institute[NKI-AVL]{\normalsize
+    Netherlands Cancer Institute \\
+    ACLC, University of Amsterdam \\
+    
+    \begin{figure}[htb]
+        \centering
+        \includegraphics[width=0.30\textwidth]{images/logos/logo_ENG_Netherlands_Cancer_Institute_grootformaat.jpg}
+        \hskip 2cm
+        \includegraphics[width=0.40\textwidth]{images/logos/aclc-logo.jpg}
+    \end{figure}
+}
+
+\date{\small
+Dag van de Fonetiek \\ 13 december 2019}
+
+\begin{document}
+    \frame{\titlepage}
+
+\begin{frame}{Introduction}
+\begin{block}{Sharing speech data}
+\begin{itemize}
+    \item Is needed for progress in speech sciences
+    \item Privacy is a concern, especially for pathological speech
+    \item Applications:
+    \begin{enumerate}
+        \item Demonstrations for live audience
+        \item Speech corpora for study
+        \item Fully Open Data
+    \end{enumerate}
+    \item State of the art is {\em Recognition$\Rightarrow$Synthesis}
+    \item Is {\em pseudonymization} possible?
+    \begin{itemize}
+        \item Remove identity
+        \item {\color{red}\em Retain para-linguistic features}
+        \item What are the trade-offs?
+    \end{itemize}
+    \item Start with ad 1: human listeners
+\end{itemize}
+\end{block}
+\vskip -4cm
+\hfill \includegraphics[width=0.25\textwidth]{images/logos/Pseudonymized_Speech_1F5E3.png}
+
+\end{frame}
+
+\begin{frame}{Speaker Identity: Anatomy to Sound}
+\centering
+\begin{columns}
+    \centering
+	\begin{column}{0.45\textwidth}
+	   \hfill
+       \includegraphics[width=0.65\textwidth]{images/figures/Head2.png}
+    \end{column}
+	\begin{column}{0.05\textwidth}
+    \Large{$\Rightarrow$}
+    \end{column}
+	\begin{column}{0.45\textwidth}
+        \includegraphics[width=0.95\textwidth]{images/figures/u_VTAF.png}
+        \hfill
+    \end{column}
+\end{columns}
+\vskip 0.5cm
+\includegraphics[width=0.50\textwidth]{images/figures/SourceFilter.png}
+
+\end{frame}
+
+\begin{frame}{Pseudonymization}
+
+    \begin{figure}[htb]
+        \centering
+        \only<1>{{\large Male and Female /Y/ Formants}\\
+        \includegraphics[width=0.71\textwidth]{images/figures/FM_Y_LPC.png}}
+        \only<2>{{\large Change from Blue to Pink (or vv.)}\\
+        \includegraphics[width=0.71\textwidth]{images/figures/FM_Y_LPC_change.png}}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Vocal Tract Length and sound changes\footnote[1]{\scriptsize{\url{ https://robvanson.github.io/PseudonymizeSpeech}}}}
+
+\begin{itemize}
+    \item Estimate Vocal Tract length (VTL) from formants \cite{lammert_short-time_2015}\\
+          \textit{(requires $\sim$300 seconds of speech)}
+    \item Change recording to target VTL, pitch, speed \cite{boersma_praat:_2017}: \\
+            {\texttt{Change gender: 75, 600, 1.2, 120, 1, 0.9}}
+    \item Shift bands F$_0$, F$_3$-F$_5$ to random frequencies
+    \item (De-)amplify bands F$_0$-F$_5$ to random intensities
+    \item[$\Rightarrow$] \textit{create sound with desired F$_x$ formant frequency and intensity}
+    \item[$\Rightarrow$] \textit{splice F$_x$ band into target sound}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Experiment 1: Online, self paced}
+\begin{columns}
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+    \item Pseudo Sentences (IFA corpus)
+    \item 10 Speakers (5F)
+    \item 4 Subjects: SLP\&Linguist
+    \item[ ] \ 
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+    \item ABX: X vs. AB
+    \item[ ] Long $\leftrightarrow$ Short VT target
+    \item 4 practice + 4 x 10 stimuli
+    \item Balanced distractors
+\end{itemize}
+\end{column}
+\end{columns}
+\vskip 1cm
+\hrule
+\vskip 0.5cm
+The voices of the speakers A and B have been changed. \\
+Which one do you think is the unknown speaker X?
+\vskip 0.5cm
+
+\begin{columns}
+\centering
+    \begin{column}{0.24\textwidth}
+    Short $\rightarrow$ Long VT\\
+    \ 
+    \vskip 0.5cm
+    \end{column}
+    \begin{column}{0.24\textwidth}
+\centering
+\includemedia[
+  addresource=audio/F20N2PS37A_fm_500-120-4.2.mp3,
+  flashvars={
+    source=audio/F20N2PS37A_fm_500-120-4.2.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/Stimuli/F20N2PS37A_fm_500-120-4.2.wav}{\Large{\textbf{\only<1>{A}\only<2>{\color{red}{A}}}}}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+\centering
+\includemedia[
+  addresource=audio/F40L2PS36A_fm_575-175-4.2.mp3,
+  flashvars={
+    source=audio/F40L2PS36A_fm_575-175-4.2.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/Stimuli/F40L2PS36A_fm_575-175-4.2.wav}{\Large{\textbf{\only<1>{X}\only<2>{\color{blue}{X}}}}}
+    \end{column}
+    \begin{column}{0.25\textwidth}
+\centering
+\includemedia[
+  addresource=audio/F40L2PS37A_fm_500-120-4.2.mp3,
+  flashvars={
+    source=audio/F40L2PS37A_fm_500-120-4.2.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/Stimuli/F40L2PS37A_fm_500-120-4.2.wav}{\Large{\textbf{\only<1>{B}\only<2>{\color{blue}{B}}}}}
+    \end{column}
+\end{columns}
+\vskip 1.5cm
+
+\hfill \scriptsize{\url{ http://www.fon.hum.uva.nl/rob/akouste/ABX_ListeningExp.html}}
+
+\end{frame}
+
+\begin{frame}{Experiment 1: Results}
+    \begin{columns}
+        \centering
+        \begin{column}{0.48\textwidth}
+        \includegraphics[width=0.98\textwidth]{images/figures/IFAcorpusResponses_Correct_Fig1.pdf}\\
+        \scriptsize{\textit{Correct responses (\%) by subject.
+        Confidence intervals from Student t test.}}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+        \includegraphics[width=0.98\textwidth]{images/figures/IFAcorpusResponses_H_Fig2.pdf}\\
+        \scriptsize{\textit{Missing information (bits) by subject corresponding to fraction correct.}}
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}{Experiment 2: Online, self paced}
+\begin{columns}
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+    \item Reading \textit{Treasure Island}
+    \item 16 Speakers (5F)
+    \item ABX: X- original\\AB- Original/Long/Short VT
+    \item 4 practice + 3 x 16 stimuli
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+    \item Recruitment over email
+    \item Requirement: \\>75\% correct in Original
+    \item 7 subjects (+1 dropped)
+    \item Balanced distractors
+\end{itemize}
+\end{column}
+\end{columns}
+\vskip 0.5cm
+\hrule
+\vskip 0.2cm
+The voices of the speakers A and B have been changed. \\
+Which one do you think is the unknown speaker X?
+\vskip 0.2cm
+
+\begin{columns}
+\centering
+    \begin{column}{0.20\textwidth}
+    Long VT\\
+    \ 
+    \vskip 0.5cm
+    Short VT\\
+    \vskip 0.1cm
+    \tiny{examples differ from experiment}
+    \end{column}
+    \begin{column}{0.25\textwidth}
+\centering
+\includemedia[
+  addresource=audio/LA_D_1118839_L.mp3,
+  flashvars={
+    source=audio/LA_D_1118839_L.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/Stimuli/LA_D_1118839_L.mp3}{\Large{\textbf{\only<1>{A}\only<2>{\color{pink}{A}}}}}
+\vskip 0.1cm
+\includemedia[
+  addresource=audio/LA_D_1710314_S.mp3,
+  flashvars={
+    source=audio/LA_D_1710314_S.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/Stimuli/LA_D_1710314_S.mp3}{\Large{\textbf{\only<1>{A}\only<2>{\color{pink}{A}}}}}
+    \end{column}
+    \begin{column}{0.25\textwidth}
+\centering
+\includemedia[
+  addresource=audio/LA_D_1312411.mp3,
+  flashvars={
+    source=audio/LA_D_1312411.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/Stimuli/LA_D_1312411.mp3}{\Large{\textbf{\only<1>{X}\only<2>{\color{pink}{X}}}}}
+\vskip 0.1cm
+\includemedia[
+  addresource=audio/LA_D_2773764.mp3,
+  flashvars={
+    source=audio/LA_D_2773764.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/Stimuli/LA_D_2773764.mp3}{\Large{\textbf{\only<1>{X}\only<2>{\color{blue}{X}}}}}
+    \end{column}
+    \begin{column}{0.25\textwidth}
+\centering
+\includemedia[
+  addresource=audio/LA_D_1133069_L.mp3,
+  flashvars={
+    source=audio/LA_D_1133069_L.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/LA_D_1133069_L.mp3}{\Large{\textbf{\only<1>{B}\only<2>{\color{blue}{B}}}}}
+\vskip 0.1cm
+\includemedia[
+  addresource=audio/LA_D_3163255_S.mp3,
+  flashvars={
+    source=audio/LA_D_3163255_S.mp3
+   &autoPlay=true
+  }
+]{\includegraphics[width=0.2\linewidth]{images/logos/500px-Speaker_Icon.png}}{APlayer.swf} \\
+\href{http://www.fon.hum.uva.nl/rob/akouste/Stimuli/LA_D_3163255_S.mp3}{\Large{\textbf{\only<1>{B}\only<2>{\color{blue}{B}}}}}
+    \end{column}
+\end{columns}
+\vskip 0.5cm
+\hfill \scriptsize{\url{ https://robvanson.github.io/akouste/ABX_ListeningExp.html}}
+\end{frame}
+
+\begin{frame}{Experiment 2: Results}
+    \begin{columns}
+        \centering
+        \begin{column}{0.48\textwidth}
+        \includegraphics[width=0.98\textwidth]{images/figures/TreasureResponse_Correct_Fig1.pdf} \\
+        \scriptsize{\textit{Correct responses (\%) by subject and gender.
+        Confidence intervals from Student t test.}}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+        \includegraphics[width=0.98\textwidth]{images/figures/TreasureResponse_H_Fig2.pdf}\\
+        \scriptsize{\textit{Missing information (bits) by subject and gender corresponding to fraction correct.}}
+
+        \end{column}
+    \end{columns}
+    \vskip 0.8cm
+    \scriptsize{\textit{Original: Original recordings, Short VTL: Pseudonymized to a short vocal tract length, Long VTL: Pseudonymized to a long vocal tract length.\\
+Type: Chisq = 71.7, df = 12, p = 1.51e-10 (ANOVA adding + Type to $\sim$ 1).}}
+\end{frame}
+
+\begin{frame}{Discussion and Conclusions}
+
+\begin{block}{Results}
+\begin{itemize}
+    \item >80\% of identifying information can be removed from speech
+    \item Speech quality is good to near natural
+\end{itemize}
+\end{block}
+ \begin{block}{But many questions remain}
+\begin{itemize}
+    \item Is Pseudonymization reversible?
+    \item Is {\em Automatic Speaker Identification} still possible?
+    \item Are para-linguistic features preserved?
+    \item Are speech pathologies preserved?
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Discussion and Conclusions}
+
+\centering
+{\fontsize{72pt}{92pt}\selectfont \textbf{?}}
+
+\end{frame}
+
+\section{Literature}
+
+\begin{frame}[allowframebreaks]
+        \frametitle{Literature}
+        \printbibliography
+\end{frame}
+
+\end{document}
